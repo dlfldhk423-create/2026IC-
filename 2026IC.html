@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026年7月3-5日耶和華見證人高雄國際大會</title>
+    <!-- Google Fonts: Noto Sans TC (Traditional Chinese) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            /* 중국어 번체에 적합한 폰트 설정 */
+            font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+        }
+
+        /* 입력 폼 스타일 */
+        .input-section {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .date-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .date-item {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #eee;
+        }
+
+        .date-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        button.submit-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background 0.3s;
+            font-family: inherit;
+            font-weight: bold;
+        }
+
+        button.submit-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* 감사 메시지 화면 스타일 */
+        .thank-you-section {
+            display: none; /* 기본적으로 숨김 */
+            text-align: center;
+            padding: 50px 20px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .thank-you-section h2 {
+            color: var(--secondary-color);
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .thank-you-section p {
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        /* 비활성화된 입력칸 스타일 (회색 처리) */
+        input:disabled {
+            background-color: #e9ecef;
+            cursor: not-allowed;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>2026年7月3-5日耶和華見證人高雄國際大會</h1>
+        <p>請輸入截至目前的飯店預訂數量。（指已支付訂金的簽約房間數）</p>
+        <p style="color: #e74c3c; font-weight: bold;">請於每週一填寫。</p>
+        <p style="color: #2c3e50; font-size: 0.95em; margin-top: 15px; line-height: 1.6;">
+            <strong>請填寫「累計」預訂總數（非單週新增）。</strong><br>
+            例如：若 3/9 為 10 間，3/16 應填寫 10 + 過去 7 天的新增數量。
+        </p>
+    </header>
+
+    <!-- 입력 섹션 -->
+    <section class="input-section">
+        <h2>資料輸入</h2>
+        <form id="bookingForm">
+            <div class="form-group">
+                <label for="hotelName">飯店名稱</label>
+                <input type="text" id="hotelName" placeholder="例如：台北君悅酒店" required oninvalid="this.setCustomValidity('請輸入飯店名稱')" oninput="this.setCustomValidity('')">
+            </div>
+
+            <div class="form-group">
+                <label>各日期預訂數量（單位：間）</label>
+                <div class="date-grid" id="dateInputs">
+                    <!-- 자바스크립트로 날짜 입력칸이 생성됩니다 -->
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">提交登錄</button>
+        </form>
+    </section>
+
+    <!-- 완료 후 보여질 감사 메시지 섹션 -->
+    <section id="thankYouSection" class="thank-you-section">
+        <h2>感謝您的填寫</h2>
+        <p>資料已成功提交。</p>
+        <p>您可以關閉此視窗。</p>
+        <button onclick="window.close()" class="submit-btn" style="margin-top: 20px;">關閉視窗</button>
+    </section>
+
+</div>
+
+<script>
+    // 1. 관리할 날짜 설정 (필요에 따라 수정하세요)
+    const targetDates = [
+        "3/9",
+        "3/16",
+        "3/23",
+        "3/30",
+        "4/6",
+        "4/15"
+    ];
+
+    // 초기화 함수
+    function init() {
+        renderDateInputs();
+    }
+
+    // 날짜 입력 필드 생성
+    function renderDateInputs() {
+        const container = document.getElementById('dateInputs');
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // 오늘 날짜 (시간 초기화)
+        const year = 2026; // 기준 연도 (2026년)
+
+        targetDates.forEach((date, index) => {
+            const div = document.createElement('div');
+            div.className = 'date-item';
+            
+            // 날짜 파싱 및 지난 날짜 확인
+            const [m, d] = date.split('/');
+            const targetDate = new Date(year, m - 1, d);
+            const isPast = targetDate < today; // 타겟 날짜가 오늘보다 이전이면 true
+            const disabledAttr = isPast ? 'disabled' : '';
+            const placeholder = isPast ? '已截止' : '0'; // 마감 시 '已截止(마감됨)' 표시
+
+            div.innerHTML = `
+                <span class="date-label">${date}</span>
+                <input type="number" id="input_${index}" name="count_${index}" min="0" placeholder="${placeholder}" ${disabledAttr}>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    // 폼 제출 처리
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // 페이지 새로고침 방지
+
+        // 입력값 가져오기
+        const hotelName = document.getElementById('hotelName').value;
+        let confirmMsg = `飯店名稱：${hotelName}\n\n`;
+        
+        targetDates.forEach((date, index) => {
+            const input = document.getElementById(`input_${index}`);
+            if (input.value) {
+                confirmMsg += `${date} : ${input.value}間\n`;
+            }
+        });
+
+        if (confirm(confirmMsg + "\n確認要提交嗎？")) {
+            // 1. 구글 앱스 스크립트 배포 URL
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxCe2_TWLRai8lL3UkNjQ8XX-Sx2fnk5eNIV3UMDwYw-pl8M6NPKFidkz85oVafLLVn/exec';
+
+            // 2. 전송할 데이터 준비
+            const formData = new FormData();
+            formData.append('hotelName', hotelName);
+            
+            targetDates.forEach((date, index) => {
+                const input = document.getElementById(`input_${index}`);
+                // 날짜(예: 3/9)를 키값으로 하여 수량을 저장
+                formData.append(date, input.value);
+            });
+
+            // 3. 구글 시트로 전송 (fetch API 사용)
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => {
+                    // 성공 시 화면 전환
+                    document.querySelector('.input-section').style.display = 'none';
+                    document.getElementById('thankYouSection').style.display = 'block';
+                })
+                .catch(error => {
+                    alert('Error! 資料提交失敗，請稍後再試。\n(전송 실패: 인터넷 연결을 확인하세요)');
+                    console.error('Error!', error.message);
+                });
+        }
+    });
+
+    // 실행
+    init();
+</script>
+
+</body>
+</html>
